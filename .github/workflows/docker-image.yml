@@ -1,0 +1,55 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and tag udagram-api-feed image
+        run: |
+          docker build -t udagram-api-feed ./udagram-api-feed
+          docker tag udagram-api-feed trishubham09/udagram-api-feed:v1
+
+      - name: Build and tag udagram-api-user image
+        run: |
+          docker build -t udagram-api-user ./udagram-api-user
+          docker tag udagram-api-user trishubham09/udagram-api-user:v1
+
+      - name: Build and tag udagram-frontend image
+        run: |
+          docker build -t udagram-frontend ./udagram-frontend
+          docker tag udagram-frontend trishubham09/udagram-frontend:v1
+
+      - name: Build and tag udagram-reverseproxy image
+        run: |
+          docker build -t udagram-reverseproxy ./udagram-reverseproxy
+          docker tag udagram-reverseproxy trishubham09/udagram-reverseproxy:v1
+
+      - name: Push udagram-api-feed
+        run: docker push trishubham09/udagram-api-feed:v1
+
+      - name: Push udagram-api-user
+        run: docker push trishubham09/udagram-api-user:v1
+
+      - name: Push udagram-frontend
+        run: docker push trishubham09/udagram-frontend:v1
+
+      - name: Push udagram-reverseproxy
+        run: docker push trishubham09/udagram-reverseproxy:v1
