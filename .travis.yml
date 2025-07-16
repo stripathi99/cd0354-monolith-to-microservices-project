@@ -10,7 +10,7 @@
   - docker tag udagram-frontend trishubham09/udagram-frontend:v1
   - docker tag udagram-reverseproxy trishubham09/udagram-reverseproxy:v1
 
-```bash
+## Bash
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push trishubham09/udagram-api-feed:v1
   - docker push trishubham09/udagram-api-user:v1
