@@ -25,24 +25,12 @@ jobs:
       - name: Set image tag variable
         run: echo "IMAGE_TAG=$(date +%s)" >> $GITHUB_ENV
 
-      - name: Build and tag udagram-api-feed image
+      - name: Build and tag the four images using docker compose
         run: |
-          docker build -t udagram-api-feed ./udagram-api-feed
+          docker compose -f docker-compose-build.yaml build --parallel
           docker tag udagram-api-feed trishubham09/udagram-api-feed:$IMAGE_TAG
-
-      - name: Build and tag udagram-api-user image
-        run: |
-          docker build -t udagram-api-user ./udagram-api-user
           docker tag udagram-api-user trishubham09/udagram-api-user:$IMAGE_TAG
-
-      - name: Build and tag udagram-frontend image
-        run: |
-          docker build -t udagram-frontend ./udagram-frontend
           docker tag udagram-frontend trishubham09/udagram-frontend:$IMAGE_TAG
-
-      - name: Build and tag udagram-reverseproxy image
-        run: |
-          docker build -t udagram-reverseproxy ./udagram-reverseproxy
           docker tag udagram-reverseproxy trishubham09/udagram-reverseproxy:$IMAGE_TAG
 
       - name: Push udagram-api-feed
